@@ -6,14 +6,18 @@
 @ide: PyCharm
 @time: 2019/12/18 14:06
 """
+# 验证码处理
 from PIL import Image, ImageFilter
 import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
 
 
-# 获取灰度转二值的映射table 0表示黑色,1表示白色
 def get_bin_table():
+    """
+    获取灰度转二值的映射table 0表示黑色,1表示白色
+    :return: 灰度转二值的映射table
+    """
     table = []
     for i in range(256):
         if i < 100:
@@ -23,8 +27,12 @@ def get_bin_table():
     return table
 
 
-# 验证码处理降噪+分割
 def img_processing(img_path):
+    """
+    验证码处理降噪+分割
+    :param img_path: 图片路径
+    :return: 处理后的图片
+    """
     # 转为灰度图像
     img = Image.open(img_path)
     img1 = img.convert("L")

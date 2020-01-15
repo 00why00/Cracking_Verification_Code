@@ -6,6 +6,7 @@
 @ide: PyCharm
 @time: 2019/12/17 19:08
 """
+# 测试文件，用于测试TensorFlow是否可用
 import tensorflow as tf
 mnist = tf.keras.datasets.mnist
 
