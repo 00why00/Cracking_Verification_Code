@@ -8,6 +8,7 @@
 """
 # 登录教务系统
 import requests
+from config import get_data
 from io import BytesIO
 from PIL import Image
 
@@ -34,9 +35,9 @@ loginHeaders = {
 # 登录传入数据
 loginData = {
     '__VIEWSTATE': "dDwxNTMxMDk5Mzc0Ozs+cgOhsy/GUNsWPAGh+Vu0SCcW5Hw=",
-    'txtUserName': "170104010053",
+    'txtUserName': get_data('stu1', 'xh'),
     'Textbox1': "",
-    'TextBox2': "",
+    'TextBox2': get_data('stu1', 'psw'),
     'txtSecretCode': "",
     'RadioButtonList1': "%D1%A7%C9%FA",
     'Button1': "",
@@ -81,7 +82,6 @@ def login():
     :return: 输出对应信息网页(后期改为获取信息)
     """
     loginResp = requests.post(urlPrefix + loginSuffix, headers=loginHeaders, data=loginData)
-    # print(loginResp.text)
     getInfoResp = requests.get(urlPrefix + getInfoSuffix, headers=getInfoHeaders, data=getInfoData)
     print(getInfoResp.text)
 

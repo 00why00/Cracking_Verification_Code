@@ -23,7 +23,7 @@ epochs = 40
 img_rows, img_cols = 12, 22
 
 character = string.ascii_lowercase + string.digits
-os.chdir(r'./train_pictures')
+os.chdir(r'src/train_pictures')
 
 if keras.backend.image_data_format == 'channels_first':
     input_shape = (1, img_rows, img_cols)
