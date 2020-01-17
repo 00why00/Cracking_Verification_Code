@@ -11,6 +11,7 @@ import requests
 from config import get_data
 from io import BytesIO
 from PIL import Image
+from predict import predict
 
 # 教务系统链接前缀
 urlPrefix = 'http://202.206.243.62/'
@@ -58,7 +59,7 @@ getInfoHeaders = {
 }
 # 获取信息传入数据
 getInfoData = {
-    'xh': "170104010053"
+    'xh': get_data('stu1', 'xh')
 }
 
 
@@ -87,7 +88,9 @@ def login():
 
 
 if __name__ == '__main__':
-    get_check_code().show()
-    checkCode = input("输入验证码：")
+    check_code_img = get_check_code()
+    # check_code_img.show()
+    checkCode = predict(check_code_img)
+    # print(checkCode)
     loginData['txtSecretCode'] = checkCode
     login()
