@@ -19,8 +19,7 @@ urlPrefix = 'http://202.206.243.62/'
 loginSuffix = '/default2.aspx'
 # 获取验证码链接后缀
 getCheckCodeSuffix = '/CheckCode.aspx'
-# 获取信息链接后缀
-getInfoSuffix = '/xs_main.aspx?xh=170104010053'
+
 # 登录响应头
 loginHeaders = {
     'Accept': "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
@@ -35,6 +34,7 @@ loginHeaders = {
 }
 # 登录传入数据
 loginData = {
+    # 此处__VIEWSTATE的值不会改变
     '__VIEWSTATE': "dDwxNTMxMDk5Mzc0Ozs+cgOhsy/GUNsWPAGh+Vu0SCcW5Hw=",
     'txtUserName': get_data('stu1', 'xh'),
     'Textbox1': "",
@@ -45,21 +45,6 @@ loginData = {
     'lbLanguage': "",
     'hidPdrs': "",
     'hidsc': "",
-}
-# 获取信息响应头
-getInfoHeaders = {
-    'Accept': "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
-    'Accept-Encoding': "gzip, deflate",
-    'Accept-Language': "zh-CN,zh;q=0.9",
-    'Cache-Control': "max-age=0",
-    'Cookie': "ASP.NET_SessionId=wfmtslfxm4mmjcnzabnqn455; SF_cookie_1=98184645",
-    'Host': "202.206.243.62",
-    'Referer': "http://202.206.243.62/default2.aspx",
-    'User-Agent': "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.79 Safari/537.36",
-}
-# 获取信息传入数据
-getInfoData = {
-    'xh': get_data('stu1', 'xh')
 }
 
 
@@ -82,15 +67,13 @@ def login():
     登录教务系统获取信息
     :return: 输出对应信息网页(后期改为获取信息)
     """
-    loginResp = requests.post(urlPrefix + loginSuffix, headers=loginHeaders, data=loginData)
-    getInfoResp = requests.get(urlPrefix + getInfoSuffix, headers=getInfoHeaders, data=getInfoData)
-    print(getInfoResp.text)
+    check_code_img = get_check_code()
+    # check_code_img.show()
+    check_code = predict(check_code_img)
+    # print(checkCode)
+    loginData['txtSecretCode'] = check_code
+    requests.post(urlPrefix + loginSuffix, headers=loginHeaders, data=loginData)
 
 
 if __name__ == '__main__':
-    check_code_img = get_check_code()
-    # check_code_img.show()
-    checkCode = predict(check_code_img)
-    # print(checkCode)
-    loginData['txtSecretCode'] = checkCode
     login()
